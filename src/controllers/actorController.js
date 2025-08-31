@@ -1,9 +1,9 @@
-const actor = require("../models/Actor");
+const Actor = require("../models/Actor");
 
 
 const getActors = async (req, res) => {
     try {
-        const actors = await actor.find();
+        const actors = await Actor.find();
         res.status(200).json(actors);
     } catch (error) {
         res.status(500).json({
@@ -14,7 +14,7 @@ const getActors = async (req, res) => {
 
 const addActor = async (req, res) => {
     try {
-        const newActor = new actor(req.body);
+        const newActor = new Actor(req.body);
         const savedActor = await newActor.save();
         res.status(201).json(savedActor);
     } catch (error) {
