@@ -8,7 +8,7 @@ const cron = require("node-cron");
 const Actor = require("./models/Actor");
 const VoteLog = require("./models/VoteLog");
 const helmet = require("helmet");
-const errorHandler = require("./middleware/errorHandler");
+const errorHandler = require("./middlewares/errorHandler");
 
 dotenv.config();
 const app = express();

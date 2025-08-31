@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
 const voteSchema = Joi.object({
-    actorId: Joi.string().required().length(24).message("Invalid actor ID");
+    actorId: Joi.string().required().length(24).message("Invalid actor ID")
 });
 
 const validateVote = (req, res, next) => {
