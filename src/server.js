@@ -4,15 +4,18 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const mongoose = require("mongoose");
 const rateLimit = require("express-rate-limit");
-const cron = require("node-cron")
+const cron = require("node-cron");
 const Actor = require("./models/Actor");
 const VoteLog = require("./models/VoteLog");
+const helmet = require("helmet");
+const errorHandler = require("./middleware/errorHandler");
 
 dotenv.config();
 const app = express();
 
 app.use(express.json());
 app.use(cors());
+app.use(helmet());
 
 connectDB();
 
@@ -26,6 +29,7 @@ const actorRoutes = require("./routes/actorRoutes");
 app.use("/api/actors", actorRoutes);
 const voteRoutes = require("./routes/voteRoutes");
 app.use("/api/vote", voteLimiter, voteRoutes);
+app.use(errorHandler);
 
 cron.schedule("0 0 * * *", async () => {
   console.log("🔄 Resetting votes for new day...");

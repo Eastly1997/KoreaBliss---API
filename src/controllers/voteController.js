@@ -1,5 +1,6 @@
 const Actor = require("../models/Actor");
 const VoteLog = require("../models/VoteLog");
+const createError = require("../utils/createError");
 
 const voteActor = async (req, res) => {
     try {
@@ -11,11 +12,11 @@ const voteActor = async (req, res) => {
         const actor = await Actor.findById(req.params.id);
 
         if(!actor) {
-            return res.status(404).json({message: "Actor not found" });
+            throw createError(404, "Actor not found!");
         }
 
         if(actor.voteIPs.includes(ip)) {
-            return res.status(429).json({ message: "You already voted for this actor. "});
+            throw createError(429, "You already voted for this actor.");
         }
 
         let voteLog = await VoteLog.findOne({ ip, date: today });
@@ -25,7 +26,7 @@ const voteActor = async (req, res) => {
         }
 
         if (voteLog.count >= DAILY_LIMIT) {
-            return res.status(429).json({ message: "Daily vote limit reached" });
+            throw createError(429, "Daily vote limit reached");
         }
 
         actor.votes += 1;
@@ -40,7 +41,7 @@ const voteActor = async (req, res) => {
             actor
         });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        next(error);
     }
 };
 
