@@ -1,5 +1,5 @@
 const express = require("express");
-const { getActors, addActor, getActorById, updateActor, deleteActor } = require("../controllers/actorController");
+const { getActors, addActor, getActorById, updateActor, deleteActor } = require("../controllers/actorController.js");
 const router = express.Router();
 const { protectAdmin } = require("../middlewares/authMiddleware.js");
 
