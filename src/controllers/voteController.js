@@ -2,10 +2,10 @@ const Actor = require("../models/Actor");
 
 const voteActor = async (req, res) => {
     try {
-        const { id } = req.params;
         const { ip } = req.ip;
 
-        const actor = await Actor.findById(id);
+        const actor = await Actor.findById(req.params.id);
+
         if(!actor) {
             return res.status(404).json({message: "Actor not found" });
         }
